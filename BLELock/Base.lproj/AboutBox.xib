@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -17,25 +16,25 @@
         <window title="About BLELock" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" frameAutosaveName="" animationBehavior="default" id="hgX-Z1-8qq">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <rect key="contentRect" x="196" y="240" width="500" height="450"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1415"/>
-            <view key="contentView" id="4gT-J6-CkT">
-                <rect key="frame" x="0.0" y="0.0" width="500" height="450"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1050"/>
+            <view key="contentView" misplaced="YES" id="4gT-J6-CkT">
+                <rect key="frame" x="0.0" y="6" width="500" height="444"/>
                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                 <subviews>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gjb-oQ-i8x">
-                        <rect key="frame" x="186" y="302" width="128" height="128"/>
+                        <rect key="frame" x="186" y="296" width="128" height="128"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="AboutImage" id="wpe-ZN-hhF"/>
                     </imageView>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2H-IE-JRz">
-                        <rect key="frame" x="153" y="278" width="195" height="16"/>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" textCompletion="NO" translatesAutoresizingMaskIntoConstraints="NO" id="V2H-IE-JRz">
+                        <rect key="frame" x="160" y="272" width="181" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" allowsUndo="NO" title="BLELock version #{version}" id="VLW-23-BX0">
                             <font key="font" metaFont="systemBold"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xhw-xw-Rxl">
-                        <rect key="frame" x="134" y="254" width="233" height="16"/>
+                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xhw-xw-Rxl">
+                        <rect key="frame" x="130" y="248" width="240" height="16"/>
                         <textFieldCell key="cell" lineBreakMode="clipping" title="Copyright © 2026-present Shawn Rain" id="GN4-8z-o8I">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -43,17 +42,17 @@
                         </textFieldCell>
                     </textField>
                     <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zi4-VN-Z2O">
-                        <rect key="frame" x="20" y="48" width="460" height="198"/>
+                        <rect key="frame" x="20" y="60" width="460" height="180"/>
                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="HAL-4b-8ea">
-                            <rect key="frame" x="0.0" y="0.0" width="460" height="198"/>
+                            <rect key="frame" x="0.0" y="0.0" width="443" height="180"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" smartInsertDelete="YES" id="wTr-M6-frY">
-                                    <rect key="frame" x="0.0" y="38" width="460" height="384"/>
+                                    <rect key="frame" x="0.0" y="38" width="443" height="400"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                    <size key="minSize" width="460" height="198"/>
+                                    <size key="minSize" width="443" height="180"/>
                                     <size key="maxSize" width="500" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment content="Permission is hereby granted">
@@ -404,12 +403,12 @@ Included icons are derived from SVGs downloaded from materialdesignicons.com. Th
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="scb-1K-7dN">
-                            <rect key="frame" x="444" y="0.0" width="16" height="198"/>
+                            <rect key="frame" x="443" y="0.0" width="17" height="180"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="8gJ-J5-6Ty">
-                        <rect key="frame" x="73" y="13" width="130" height="32"/>
+                        <rect key="frame" x="60" y="20" width="120" height="24"/>
                         <buttonCell key="cell" type="push" title="Visit Homepage" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fPY-L3-Edh">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -419,7 +418,7 @@ Included icons are derived from SVGs downloaded from materialdesignicons.com. Th
                         </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AHV-DJ-ucE">
-                        <rect key="frame" x="297" y="13" width="130" height="32"/>
+                        <rect key="frame" x="320" y="20" width="120" height="24"/>
                         <buttonCell key="cell" type="push" title="Check Releases" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="WIg-Gy-UeI">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
@@ -430,24 +429,24 @@ Included icons are derived from SVGs downloaded from materialdesignicons.com. Th
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="bottom" secondItem="8gJ-J5-6Ty" secondAttribute="bottom" constant="20" id="4W1-i2-xLJ"/>
+                    <constraint firstItem="xhw-xw-Rxl" firstAttribute="top" secondItem="V2H-IE-JRz" secondAttribute="bottom" constant="8" symbolic="YES" id="7Fy-ff-51Y"/>
+                    <constraint firstItem="8gJ-J5-6Ty" firstAttribute="leading" secondItem="4gT-J6-CkT" secondAttribute="leading" constant="60" id="7lb-Ln-gu4"/>
+                    <constraint firstItem="zi4-VN-Z2O" firstAttribute="top" secondItem="xhw-xw-Rxl" secondAttribute="bottom" constant="8" id="8HG-jd-MwZ"/>
                     <constraint firstItem="gjb-oQ-i8x" firstAttribute="top" secondItem="4gT-J6-CkT" secondAttribute="top" constant="20" id="B4Q-6s-zvj"/>
+                    <constraint firstItem="V2H-IE-JRz" firstAttribute="top" secondItem="gjb-oQ-i8x" secondAttribute="bottom" constant="8" id="DGq-Pa-GYO"/>
+                    <constraint firstItem="8gJ-J5-6Ty" firstAttribute="top" secondItem="zi4-VN-Z2O" secondAttribute="bottom" constant="16" id="DoA-yk-eP4"/>
+                    <constraint firstItem="gjb-oQ-i8x" firstAttribute="height" constant="128" id="H1-image-height"/>
+                    <constraint firstItem="zi4-VN-Z2O" firstAttribute="height" constant="180" id="H1-scroll-height"/>
+                    <constraint firstItem="AHV-DJ-ucE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8gJ-J5-6Ty" secondAttribute="trailing" constant="12" symbolic="YES" id="KwJ-OJ-6jX"/>
+                    <constraint firstItem="V2H-IE-JRz" firstAttribute="centerX" secondItem="4gT-J6-CkT" secondAttribute="centerX" id="T2H-w1-idY"/>
                     <constraint firstItem="gjb-oQ-i8x" firstAttribute="centerX" secondItem="4gT-J6-CkT" secondAttribute="centerX" id="UZ2-ov-ZNR"/>
                     <constraint firstItem="gjb-oQ-i8x" firstAttribute="width" constant="128" id="W1-image-width"/>
-                    <constraint firstItem="gjb-oQ-i8x" firstAttribute="height" constant="128" id="H1-image-height"/>
-                    <constraint firstItem="V2H-IE-JRz" firstAttribute="top" secondItem="gjb-oQ-i8x" secondAttribute="bottom" constant="8" id="DGq-Pa-GYO"/>
-                    <constraint firstItem="V2H-IE-JRz" firstAttribute="centerX" secondItem="4gT-J6-CkT" secondAttribute="centerX" id="T2H-w1-idY"/>
-                    <constraint firstItem="xhw-xw-Rxl" firstAttribute="top" secondItem="V2H-IE-JRz" secondAttribute="bottom" constant="8" symbolic="YES" id="7Fy-ff-51Y"/>
                     <constraint firstItem="xhw-xw-Rxl" firstAttribute="centerX" secondItem="4gT-J6-CkT" secondAttribute="centerX" id="W5z-VE-15k"/>
-                    <constraint firstItem="zi4-VN-Z2O" firstAttribute="top" secondItem="xhw-xw-Rxl" secondAttribute="bottom" constant="8" id="8HG-jd-MwZ"/>
-                    <constraint firstItem="zi4-VN-Z2O" firstAttribute="height" constant="180" id="H1-scroll-height"/>
-                    <constraint firstItem="zi4-VN-Z2O" firstAttribute="leading" secondItem="4gT-J6-CkT" secondAttribute="leading" constant="20" id="Z9U-5q-KFD"/>
-                    <constraint firstAttribute="trailing" secondItem="zi4-VN-Z2O" secondAttribute="trailing" constant="20" id="sYO-sA-hSb"/>
-                    <constraint firstItem="8gJ-J5-6Ty" firstAttribute="top" secondItem="zi4-VN-Z2O" secondAttribute="bottom" constant="16" id="DoA-yk-eP4"/>
-                    <constraint firstItem="8gJ-J5-6Ty" firstAttribute="leading" secondItem="4gT-J6-CkT" secondAttribute="leading" constant="60" id="7lb-Ln-gu4"/>
-                    <constraint firstAttribute="bottom" secondItem="8gJ-J5-6Ty" secondAttribute="bottom" constant="20" id="4W1-i2-xLJ"/>
-                    <constraint firstItem="AHV-DJ-ucE" firstAttribute="firstBaseline" secondItem="8gJ-J5-6Ty" secondAttribute="firstBaseline" id="baseline-align"/>
                     <constraint firstAttribute="trailing" secondItem="AHV-DJ-ucE" secondAttribute="trailing" constant="60" id="Ww5-RA-wFM"/>
-                    <constraint firstItem="AHV-DJ-ucE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8gJ-J5-6Ty" secondAttribute="trailing" constant="12" symbolic="YES" id="KwJ-OJ-6jX"/>
+                    <constraint firstItem="zi4-VN-Z2O" firstAttribute="leading" secondItem="4gT-J6-CkT" secondAttribute="leading" constant="20" id="Z9U-5q-KFD"/>
+                    <constraint firstItem="AHV-DJ-ucE" firstAttribute="firstBaseline" secondItem="8gJ-J5-6Ty" secondAttribute="firstBaseline" id="baseline-align"/>
+                    <constraint firstAttribute="trailing" secondItem="zi4-VN-Z2O" secondAttribute="trailing" constant="20" id="sYO-sA-hSb"/>
                 </constraints>
             </view>
             <connections>
@@ -457,6 +456,6 @@ Included icons are derived from SVGs downloaded from materialdesignicons.com. Th
         </window>
     </objects>
     <resources>
-        <image name="AboutImage" width="128" height="128"/>
+        <image name="AboutImage" width="512" height="512"/>
     </resources>
 </document>

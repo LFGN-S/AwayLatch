@@ -542,11 +542,40 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSMenuItemVa
         do {
             if launchAtLogin {
                 try service.register()
+                NSLog("BLELock: SMAppService registered successfully via toggle")
             } else {
                 try service.unregister()
+                NSLog("BLELock: SMAppService unregistered successfully via toggle")
             }
         } catch {
-            print("Failed to update launch at login: \(error)")
+            NSLog("BLELock: Failed to update launch at login: \(error.localizedDescription)")
+        }
+    }
+
+    func syncLaunchAtLoginStatus() {
+        let launchAtLogin = prefs.bool(forKey: "launchAtLogin")
+        let service = SMAppService.mainApp
+        let status = service.status
+        NSLog("BLELock: syncLaunchAtLoginStatus: launchAtLogin is \(launchAtLogin), SMAppService status is \(status.rawValue)")
+        
+        if launchAtLogin {
+            if status != .enabled {
+                do {
+                    try service.register()
+                    NSLog("BLELock: SMAppService registered successfully on launch")
+                } catch {
+                    NSLog("BLELock: Failed to register SMAppService on launch: \(error.localizedDescription)")
+                }
+            }
+        } else {
+            if status == .enabled {
+                do {
+                    try service.unregister()
+                    NSLog("BLELock: SMAppService unregistered successfully on launch")
+                } catch {
+                    NSLog("BLELock: Failed to unregister SMAppService on launch: \(error.localizedDescription)")
+                }
+            }
         }
     }
 
@@ -847,6 +876,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate, NSMenuItemVa
             button.image = NSImage(named: "StatusBarDisconnected")
             constructMenu()
         }
+        syncLaunchAtLoginStatus()
         ble.delegate = self
         var initialUUIDs: Set<UUID> = []
         if let arr = prefs.array(forKey: "devices") as? [String] {
