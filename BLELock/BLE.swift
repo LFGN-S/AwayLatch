@@ -328,8 +328,8 @@ class BLE: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                     self.delegate?.updateRSSI(rssi: nil, active: false, uuid: uuid)
                     timer.invalidate()
                     self.signalTimers.removeValue(forKey: uuid)
-                    self.presenceMap[uuid] = false
-                    self.evaluatePresence(reason: "lost", lostUUID: uuid)
+                    let wasPresent = self.presenceMap.updateValue(false, forKey: uuid) == true
+                    self.evaluatePresence(reason: "lost", lostUUID: uuid, wasPresent: wasPresent)
                 }
             }
         })
@@ -389,16 +389,18 @@ class BLE: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
         return Int(mean)
     }
 
-    func evaluatePresence(reason: String, lostUUID: UUID?) {
+    func evaluatePresence(reason: String, lostUUID: UUID?, wasPresent: Bool = false) {
         guard !passiveMode else { return }
-        // Lock only when we previously confirmed at least one device present
+        // The device that just left can be the only one we had confirmed nearby.
+        let lostDeviceWasPresent = lostUUID.map { monitoredUUIDs.contains($0) && wasPresent } ?? false
         let anySeenPresent = monitoredUUIDs.contains { seenDevices.contains($0) && presenceMap[$0] == true }
         let allPresent = monitoredUUIDs.allSatisfy { uuid in
             if !seenDevices.contains(uuid) { return true }
             return presenceMap[uuid] == true
         }
         let lost = lostUUID ?? monitoredUUIDs.first(where: { seenDevices.contains($0) && presenceMap[$0] != true })
-        delegate?.updatePresence(presence: allPresent || !anySeenPresent, reason: reason, deviceUUID: lost)
+        let hadPresentDevice = lostDeviceWasPresent || anySeenPresent
+        delegate?.updatePresence(presence: allPresent || !hadPresentDevice, reason: reason, deviceUUID: lost)
     }
 
     func updateMonitoredPeripheral(uuid: UUID, rssi: Int) {
@@ -444,10 +446,10 @@ class BLE: NSObject, CBCentralManagerDelegate, CBPeripheralDelegate {
                     
                     if remaining <= 0 {
                         print("Device is away: \(uuid)")
-                        self.presenceMap[uuid] = false
+                        let wasPresent = self.presenceMap.updateValue(false, forKey: uuid) == true
                         self.proximityTimers.removeValue(forKey: uuid)
                         timer.invalidate()
-                        self.evaluatePresence(reason: "away", lostUUID: uuid)
+                        self.evaluatePresence(reason: "away", lostUUID: uuid, wasPresent: wasPresent)
                     } else {
                         // Start notification only after 5 seconds of being away
                         if proximityCounter >= 5.0 {
