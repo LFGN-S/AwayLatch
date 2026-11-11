@@ -171,7 +171,7 @@
 				};
 			};
 			buildConfigurationList = 3DD4B64B226C1C3200451B7B /* Build configuration list for PBXProject "BLELock" */;
-			developmentRegion = "zh-Hans";
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
