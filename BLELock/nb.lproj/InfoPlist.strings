@@ -1,8 +1,0 @@
-/* Bundle display name */
-"CFBundleDisplayName" = "BLELock";
-
-/* Bundle name */
-"CFBundleName" = "BLELock";
-
-/* Privacy - Bluetooth Always Usage Description */
-"NSBluetoothAlwaysUsageDescription" = "BLELock bruker Bluetooth for å finne enheter.";

@@ -1,75 +1,55 @@
-# BLELock
+# AwayLatch
 
-## 注意：本应用现在是一个自动锁定工具。出于安全和简化考虑，已移除自动解锁功能。
+AwayLatch 是一个 macOS 菜单栏工具，在监控的蓝牙低功耗设备离开时锁定 Mac。Apple Watch、iPhone 等设备都可以作为监控对象。解锁可以使用 macOS 自带的 Apple Watch 解锁功能。
 
-![Github Release](https://img.shields.io/github/v/release/ShawnRn/BLEUnlock)
-![Github All Releases](https://img.shields.io/github/downloads/ShawnRn/BLEUnlock/total.svg)
+[English](README.md)
 
-BLELock 是一个轻量级菜单栏工具，它通过检测 iPhone、Apple Watch 或任何其他蓝牙低功耗 (BLE) 设备的距离来**自动锁定**您的 Mac。
+## 从源码构建
 
-本文档另有以下语言版本：
-- [English (英文)](README.md)
+需要支持蓝牙低功耗的 Mac 和 macOS 15.6 或更高版本。工程已在 Xcode 27.2 上验证。
 
-## 功能特性
+1. 克隆仓库并打开工程。
 
-- 无需安装 iPhone 端 App。
-- **自动锁定**：当 BLE 设备远离或信号丢失时，自动锁定您的 Mac。
-- **倒计时通知**：在锁定前通知您，给您留出保持活跃的机会。
-- **Dock 图标切换**：可选择在 Dock 中显示或隐藏应用程序图标。
-- 适用于任何定期从静态 MAC 地址传输信号的 BLE 设备。
-- 锁定后可选择运行自定义脚本。
-- 锁定后可选择使显示器进入睡眠状态。
-- 离开时可选择暂停音乐/视频播放 (Now Playing)。
+   ```sh
+   git clone https://github.com/LFGN-S/AwayLatch.git
+   cd AwayLatch
+   open AwayLatch.xcodeproj
+   ```
 
-## 系统要求
+2. 选择 **AwayLatch** 方案和 **My Mac**，然后选择 **Product → Run**。首次启动时允许蓝牙访问。允许通知后，AwayLatch 可以告知是哪台设备触发了锁屏。
+3. 打开菜单栏中的「监控设备」，勾选一台或多台附近设备。菜单默认列出 macOS 报告的已配对设备。打开「显示其他附近设备」可以查找更多设备。已选设备信号丢失时仍会显示在列表顶部。
 
-- 支持蓝牙低功耗 (BLE) 的 Mac。
-- 建议 macOS 26.0 (Tahoe) 或更高版本。
-- 定期传输信号的 iPhone、Apple Watch 或其他 BLE 设备。
+菜单跟随 macOS 的首选语言，默认回退到英文。
 
-## 安装方法
+## 锁屏逻辑
 
-### 手动安装
+每台设备独立监控。已选设备首次被确认在附近后，持续弱信号或失联就可能触发锁屏。
 
-从 [Releases](https://github.com/ShawnRn/BLEUnlock/releases) 下载 dmg 文件，移动「BLELock.app」到「应用程序」文件夹。
+对于靠蓝牙广播监控的设备，AwayLatch 每隔离开确认时间的四分之一开扫一次。所有这类设备都收到合格读数后，当轮立即停扫。一个完整窗口里没有收到某台设备的合格读数，就给该设备计一次失败。扫描窗口时长按已观测到的广播间隔估算。
 
-## 设置指南
+同一设备连续失败三轮后，AwayLatch 持续扫描到截止时刻。确认时间从**首次失败那轮的开扫时刻**算起。收到合格读数会清除该设备的确认状态。设定为 120 秒时，前三轮相隔 30 秒开扫。
 
-首次启动时，应用会请求以下权限：
+确认时间太短、放不下分段扫描和末段确认时，AwayLatch 使用连续监控。锁屏、睡眠或禁用自动锁屏时会暂停监控。打开「监控设备」子菜单时会连续扫描，以发现附近设备。
 
-| 权限 | 说明 |
-|------|------|
-| 蓝牙 | 用于设备扫描和近距离检测。 |
-| 通知 | BLELock 会在锁定屏幕前显示倒计时消息。 |
+## 设置
 
-最后，点击菜单栏图标，选择 **Device (设备)**。选择您的设备，设置即告完成！
+| 选项 | 作用 |
+| --- | --- |
+| 锁屏信号阈值 | 默认 −70 dBm，可选 −45 到 −90 dBm，每 5 dBm 一档。选择「关闭自动锁屏」可暂停离开锁屏。 |
+| 离开确认时间 | 10 至 600 秒的预设档位。全程连续监控时，从发现弱信号或失联算起。 |
+| 用屏幕保护程序锁屏 | 启动屏幕保护程序。macOS 的「锁定屏幕」设置控制何时要求输入密码。 |
+| 登录时启动 | 登录 macOS 时启动 AwayLatch。 |
 
-## 选项说明
+## 从 BLELock 迁移
 
-| 选项 | 说明 |
-|------|------|
-| 立即锁定 (Lock Now) | 立即手动锁定屏幕。 |
-| 锁定信号强度 (Lock RSSI) | 触发锁定的信号阈值。值越小表示设备需要离得越远。 |
-| 锁定延迟 (Lock Delay) | 检测到设备远离后到执行锁定之前的持续时间。 |
-| 超时 (Timeout) | 最后一次收到信号到执行锁定之间的时间。 |
-| 近距唤醒 (Wake on Proximity) | 当设备靠近时唤醒显示器睡眠（注意：仍需手动输入密码）。 |
-| 暂停「正在播放」 | 锁定后暂停音乐或视频播放（Apple Music、Spotify 等）。 |
-| 使用屏幕保护程序 | 启动屏幕保护程序而非立即系统锁定。 |
-| 睡眠显示器 | 锁定后立即关闭显示器。 |
-| 显示 Dock 图标 | 切换应用在 Dock 中的可见性。 |
-| 被动模式 (Passive Mode) | 使用被动扫描以避免干扰其他蓝牙外设。 |
-| 登录时启动 | 在您登录时自动启动应用。 |
+先退出并移除 BLELock，再打开 AwayLatch。AwayLatch 首次启动时会导入已选设备和锁屏设置。macOS 可能会再次请求蓝牙和通知权限。
 
-## 常见问题排查
+## 签名
 
-### 在列表中找不到我的设备
-如果您的设备没有名称，它将显示为 UUID。尝试靠近/远离设备，通过 RSSI 值的变化来识别它。
+Debug 和 Release 均使用本机临时签名（ad hoc），并启用 Hardened Runtime。用这套配置即可在本机编译和运行。要分发可下载的应用，请用自己的 **Developer ID Application** 身份签名，并提交 Apple 公证。 [Apple 公证指南](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)
 
-### 频繁触发「信号丢失」锁定
-增加 **Timeout (超时)** 值或尝试开启 **Passive Mode (被动模式)**。
+## 致谢与许可证
 
-## 致谢与许可
+AwayLatch 基于 Shawn Rain 的 BLELock，BLELock 基于 Takeshi Sone 的 BLEUnlock。 [BLELock](https://github.com/ShawnRn/BLELock) · [BLEUnlock](https://github.com/ts1/BLEUnlock)
 
-原项目由 [Takeshi Sone](https://github.com/ts1/BLEUnlock) 开发。由 Shawn Rain 进行品牌重塑和现代化重构。
-
-MIT 许可证。版权所有 © 2026-present Shawn Rain。
+采用 MIT 许可证。 [LICENSE](LICENSE)

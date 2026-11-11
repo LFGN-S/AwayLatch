@@ -1,75 +1,55 @@
-# BLELock
+# AwayLatch
 
-## Note: This app is now an Automatic Locking tool. Auto-Unlock has been removed for security and simplicity.
+AwayLatch locks your Mac when a monitored Bluetooth Low Energy device moves away. It runs in the menu bar and works with devices such as an Apple Watch or iPhone. Use the macOS Apple Watch setting for unlocking.
 
-![Github Release](https://img.shields.io/github/v/release/ShawnRn/BLEUnlock)
-![Github All Releases](https://img.shields.io/github/downloads/ShawnRn/BLEUnlock/total.svg)
+[简体中文](README.zh-cn.md)
 
-BLELock is a small menu bar utility that **automatically locks** your Mac by proximity of your iPhone, Apple Watch, or any other Bluetooth Low Energy device. 
+## Build from source
 
-This document is also available in:
-- [Chinese (简体中文)](README.zh-cn.md)
+You need a Mac with Bluetooth Low Energy support and macOS 15.6 or later. The project was tested with Xcode 27.2.
 
-## Features
+1. Clone the repository and open the project.
 
-- No iPhone app is required.
-- **Auto-Lock**: Automatically locks your Mac when your BLE device moves away or the signal is lost.
-- **Countdown Notifications**: Notifies you before locking, giving you a chance to stay active.
-- **Dock Icon Toggle**: Option to show or hide the application icon in the Dock.
-- Works with any BLE devices that periodically transmit signals from a static MAC address.
-- Optionally runs your own script upon locking.
-- Optionally puts the display to sleep upon locking.
-- Optionally pauses music/video playback (Now Playing) when you leave.
+   ```sh
+   git clone https://github.com/LFGN-S/AwayLatch.git
+   cd AwayLatch
+   open AwayLatch.xcodeproj
+   ```
 
-## Requirements
+2. Select the **AwayLatch** scheme and **My Mac**, then choose **Product → Run**. Allow Bluetooth access on first launch. Notification access lets AwayLatch report which device triggered a lock.
+3. Open **Devices to Monitor** in the menu bar and select one or more nearby devices. The menu shows devices macOS reports as paired by default. Turn on **Include Other Nearby Devices** to find additional devices. Selected devices stay at the top of the list when their signal is missing.
 
-- A Mac with Bluetooth Low Energy support.
-- macOS 26.0 (Tahoe) or later recommended.
-- iPhone, Apple Watch, or another BLE device that transmits signal periodically.
+Menus follow the preferred languages in macOS, with English as the fallback.
 
-## Installation
+## How locking works
 
-### Manual installation
+Each device is monitored independently. Once AwayLatch has detected a selected device nearby, that device can trigger a lock when its signal stays weak or goes missing.
 
-Download the dmg file from [Releases](https://github.com/ShawnRn/BLEUnlock/releases), and move BLELock.app to the Applications folder.
+For nearby devices monitored through Bluetooth advertisements, AwayLatch opens a scan every quarter of the departure confirmation time. Each scan ends as soon as all those devices have a qualifying reading. A full window with no qualifying reading counts as one failure for that device. The window length comes from observed broadcasts.
 
-## Setting up
+After three consecutive failures for the same device, AwayLatch scans continuously through the deadline. The deadline is measured from the **start of the first failed scan**. A qualifying reading resets that device’s confirmation. With a 120-second setting, the three sampled scans start 30 seconds apart.
 
-On the first launch, it asks for the following permissions:
+AwayLatch uses continuous monitoring when the setting is too short to fit the sampled scans and final check. Monitoring pauses while the Mac is locked, asleep, or automatic locking is disabled. Opening the device submenu starts continuous discovery.
 
-| Permission | Description |
-|------------|-------------|
-| Bluetooth | Required for device scanning and proximity detection. |
-| Notification | BLELock shows a countdown message before locking the screen. |
+## Settings
 
-Finally, from the menu bar icon, select **Device**. Select your device, and you’re done!
+| Option | What it controls |
+| --- | --- |
+| Lock Threshold (RSSI) | Defaults to −70 dBm. Options range from −45 to −90 dBm in 5 dBm steps. Choose **Disable Automatic Locking** to pause departure locking. |
+| Departure Confirmation Time | Presets from 10 to 600 seconds. Continuous-only monitoring starts the timer when a weak or missing signal is detected. |
+| Lock with Screen Saver | Starts the screen saver. The macOS Lock Screen settings control when a password is required. |
+| Open at Login | Starts AwayLatch when you log in. |
 
-## Options
+## Upgrading from BLELock
 
-| Option | Description |
-|--------|-------------|
-| Lock Screen Now | Manually locks the screen immediately. |
-| Lock RSSI | Signal strength threshold to lock. Smaller value means the device needs to be farther away. |
-| Delay to Lock | Duration of time before locking after the device is detected away. |
-| Timeout | Time between last signal reception and locking. |
-| Wake on Proximity | Wakes up the display from sleep when the device approaches (Note: Manual password entry still required). |
-| Pause “Now Playing” | Pauses playback of music or video (Apple Music, Spotify, etc.) upon locking. |
-| Use Screensaver | Launches screensaver instead of immediate system lock. |
-| Sleep Display | Turns off the display immediately when locking. |
-| Show Dock Icon | Toggles the visibility of the app in the Dock. |
-| Passive Mode | Uses passive scanning to avoid interference with other Bluetooth peripherals. |
-| Launch at Login | Automatically starts the app when you log in. |
+Quit and remove BLELock before opening AwayLatch. AwayLatch imports selected devices and lock settings on first launch. macOS may ask for Bluetooth and notification access again.
 
-## Troubleshooting
+## Signing
 
-### Can’t find my device in the list
-If your device doesn’t have a name, it will appear as a UUID. Move your device closer/farther to identify it by RSSI changes.
+Debug and Release use local ad hoc signing with Hardened Runtime enabled. Anyone can build and run the project locally with this configuration. To distribute a downloadable app, sign with your own **Developer ID Application** identity and submit the app for Apple notarization. [Apple’s notarization guide](https://developer.apple.com/documentation/security/notarizing-macos-software-before-distribution)
 
-### Frequent “Signal is lost” locking
-Increase the **Timeout** value or try **Passive Mode**.
+## Credits and license
 
-## Credit & License
+AwayLatch is based on BLELock by Shawn Rain, which was based on BLEUnlock by Takeshi Sone. [BLELock](https://github.com/ShawnRn/BLELock) · [BLEUnlock](https://github.com/ts1/BLEUnlock)
 
-Original project by [Takeshi Sone](https://github.com/ts1/BLEUnlock). Rebranded and modernized by Shawn Rain.
-
-MIT License. Copyright © 2026-present Shawn Rain.
+Licensed under the MIT License. [LICENSE](LICENSE)
